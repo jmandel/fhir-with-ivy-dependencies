@@ -1,3 +1,3 @@
 #/bin/bash
-echo "Running publication process now"
-java -jar -Xmx1024m tools/bin/org.hl7.fhir.tools.jar `pwd`
+echo "Running publication process now with args: '$@'"
+ant -f tools/java/org.hl7.fhir.tools.core/build.xml Publisher -Dargs=\"$@\"

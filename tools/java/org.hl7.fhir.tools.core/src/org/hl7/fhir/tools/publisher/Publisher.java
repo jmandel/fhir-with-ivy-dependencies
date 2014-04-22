@@ -279,10 +279,6 @@ public class Publisher {
 
     Publisher pub = new Publisher();
 
-    if (args.length == 0) {
-      System.out.println("Please specify the FHIR directory");
-      return;
-    }
     pub.isGenerate = !(args.length > 1 && hasParam(args, "-nogen"));
     pub.noArchive = (args.length > 1 && hasParam(args, "-noarchive"));
     pub.web = (args.length > 1 && hasParam(args, "-web"));
@@ -294,7 +290,7 @@ public class Publisher {
       pub.page.setPublicationNotice(PageProcessor.PUB_NOTICE);
     }
     try {
-      pub.execute(args[0]);
+      pub.execute(System.getProperty("user.dir"));
     } catch (Exception e) {
       System.out.println("Error running build: " + e.getMessage());
       File f;
@@ -362,6 +358,10 @@ public class Publisher {
    */
   public void execute(String folder) throws Exception {
     page.log("Publish FHIR in folder " + folder + " @ " + Config.DATE_FORMAT().format(page.getGenDate().getTime()), LogMessageType.Process);
+    if (web) 
+      page.log("Build final copy for HL7 web site", LogMessageType.Process);
+    else
+      page.log("Build local copy", LogMessageType.Process);
 
     if (isGenerate)
       page.setSvnRevision(checkSubversion(folder));
@@ -2309,7 +2309,7 @@ public class Publisher {
         for (AtomEntry<? extends org.hl7.fhir.instance.model.Resource> ae : rf.getFeed().getEntryList()) {
           r = ae.getResource();
           wantSave = wantSave || (r.getText() == null || r.getText().getDiv() == null);
-          if ((r.getText() == null || r.getText().getDiv() == null) || !web) {
+          if (true /*(r.getText() == null || r.getText().getDiv() == null) || !web */) {
             NarrativeGenerator gen = new NarrativeGenerator("", page.getConceptLocator(), page.getCodeSystems(), page.getValueSets(), page.getConceptMaps(), page.getProfiles(), new SpecificationInternalClient(page, rf.getFeed()));
             gen.generate(r);
           }
@@ -2323,7 +2323,7 @@ public class Publisher {
           }
         }
         narrative = new XhtmlComposer().compose(combined);
-        if (wantSave) {
+        if (true /*wantSave*/) {
           new XmlComposer().compose(new FileOutputStream(page.getFolders().dstDir + n + ".xml"), rf.getFeed(), true, true);
           xdoc = builder.parse(new CSFileInputStream(page.getFolders().dstDir + n + ".xml"));
         }
@@ -2331,13 +2331,13 @@ public class Publisher {
       } else {
         r = rf.getResource();
         wantSave = r.getText() == null || r.getText().getDiv() == null;
-        if (wantSave || !web) {
+        if (wantSave/* || !web */) {
           NarrativeGenerator gen = new NarrativeGenerator("", page.getConceptLocator(), page.getCodeSystems(), page.getValueSets(), page.getConceptMaps(), page.getProfiles(), new SpecificationInternalClient(page, null));
           gen.generate(r);
         }
         if (r.getText() != null && r.getText().getDiv() != null) {
           narrative = new XhtmlComposer().compose(r.getText().getDiv());
-          if (wantSave) {
+          if (true /*wantSave*/) {
             new XmlComposer().compose(new FileOutputStream(page.getFolders().dstDir + n + ".xml"), r, true, true);
             xdoc = builder.parse(new CSFileInputStream(page.getFolders().dstDir + n + ".xml"));
           }
