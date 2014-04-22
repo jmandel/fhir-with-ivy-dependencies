@@ -84,6 +84,8 @@ public class SpecificationTerminologyServices  implements TerminologyServices {
 
   @Override
   public ValueSetDefineConceptComponent getCodeDefinition(String system, String code) {
+    if (system == null)
+      return null;
     if (system.equals("http://snomed.info/sct"))
       try {
         return locateSnomed(code);
