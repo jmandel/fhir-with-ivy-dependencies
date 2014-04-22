@@ -45,6 +45,11 @@ public class DotNetFramework {
 
   public static DotNetCompileResult compile(String makefile, Logger l)
   {
+    if (!System.getProperty("os.name").startsWith("Windows")) {
+      l.log("Not on a Windows system; will not attempt to compile the C# reference implementation.", LogMessageType.Warning);
+      return null;
+    }
+
     DotNetCompileResult result = new DotNetCompileResult();
 
     String fwPath = getDotNetFrameworkPath();
