@@ -30,12 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.hl7.fhir.instance.client.EUnableToResolveReference;
-import org.hl7.fhir.instance.client.EWrongResourceType;
-import org.hl7.fhir.instance.client.ResourceResolverService;
-import org.hl7.fhir.utilities.Utilities;
 
 /**
  * A resource that is defined in the FHIR specification
