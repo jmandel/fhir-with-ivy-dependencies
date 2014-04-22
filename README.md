@@ -36,3 +36,13 @@ ant -f tools/java/org.hl7.fhir.tools.core/build.xml \
 4. package required libraries into generated jar
 5. finish
 6. note it generates warnings... ignore these
+
+
+### Command line parameters
+
+-nogen - don't generate the spec, just run the validation. (to use this, manually fix things in the publication directory, and then migrate the changes back to source when done. this is a hack)
+-noarchive - don't generate the archive. Don't use this if you're a core editor
+-web - produce the HL7 ready publication form for final upload (only core editors)
+-diff - the executable program to use if platform round-tripping doesn't produce identical content (default: c:\program files (x86)\WinMerge\WinMergeU.exe)
+-name - the "name" to go in the title bar of each of the specification
+
