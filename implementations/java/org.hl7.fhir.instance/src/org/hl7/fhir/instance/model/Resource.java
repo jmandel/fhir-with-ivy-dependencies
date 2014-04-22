@@ -118,29 +118,29 @@ public abstract class Resource extends BackboneElement {
     return contained;
   }
 
-  private ResourceResolverService resourceResolver;
-  
-  public Resource fetchByReference(ResourceReference reference, ResourceType type) throws EWrongResourceType, EUnableToResolveReference {
-    if (reference == null || reference.getReference() == null || Utilities.noString(reference.getReferenceSimple()))
-    	return null;
-    Resource res = null;
-    String url = reference.getReferenceSimple();
-    if (url.startsWith("#")) {
-     	for (Resource r : contained) {
-     		if (r.getXmlId().equals(url.substring(1)))
-     			res = r;
-     	}
-     	if (res == null)
-     		throw new EUnableToResolveReference("Cannot locate contained resource \""+url.substring(1)+"\"");
-    } else if (resourceResolver == null)
-    	throw new EUnableToResolveReference("This resource has no reference resolver");
-    else
-    	res = resourceResolver.resolveByUrl(url);
-    if (res == null)
-    	throw new EUnableToResolveReference("Resource not found"); // though this shouldn't happen
-    if (res.getResourceType() != type)
-    	throw new EWrongResourceType("Expected Resource of type "+type.toString()+" but found "+res.getResourceType().toString());
-    return res;
-  }
+//  private ResourceResolverService resourceResolver;
+//  
+//  public Resource fetchByReference(ResourceReference reference, ResourceType type) throws EWrongResourceType, EUnableToResolveReference {
+//    if (reference == null || reference.getReference() == null || Utilities.noString(reference.getReferenceSimple()))
+//    	return null;
+//    Resource res = null;
+//    String url = reference.getReferenceSimple();
+//    if (url.startsWith("#")) {
+//     	for (Resource r : contained) {
+//     		if (r.getXmlId().equals(url.substring(1)))
+//     			res = r;
+//     	}
+//     	if (res == null)
+//     		throw new EUnableToResolveReference("Cannot locate contained resource \""+url.substring(1)+"\"");
+//    } else if (resourceResolver == null)
+//    	throw new EUnableToResolveReference("This resource has no reference resolver");
+//    else
+//    	res = resourceResolver.resolveByUrl(url);
+//    if (res == null)
+//    	throw new EUnableToResolveReference("Resource not found"); // though this shouldn't happen
+//    if (res.getResourceType() != type)
+//    	throw new EWrongResourceType("Expected Resource of type "+type.toString()+" but found "+res.getResourceType().toString());
+//    return res;
+//  }
   
 }
