@@ -6,11 +6,12 @@ First ensure that [ant 1.9+](http://ant.apache.org/bindownload.cgi) is installed
 
 See also: [FHIR Build Process](http://wiki.hl7.org/index.php?title=FHIR_Build_Process)
 
+Note: if you are offline and cannot fetch dependencies, pass the `--offline`
+flag to the publisher script. E.g. `./publish.sh --offline`
+
 ### To build and run the FHIR Publisher via ant
 ```
-ant -f tools/java/org.hl7.fhir.tools.core/build.xml \
-       Publisher \
-       -Dargs=\"$(pwd)\"
+ant clean Publisher -Dargs="-name my-custom-build"
 ```
 ---
 
