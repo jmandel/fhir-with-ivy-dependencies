@@ -185,9 +185,11 @@ public class JavaGenerator extends BaseGenerator implements PlatformGenerator {
     zip.addFiles(implDir+"org.hl7.fhir.utilities"+sl+"src"+ sl+"org"+sl+"hl7"+sl+"fhir"+sl+"utilities"+sl, "org/hl7/fhir/utilities/", ".java", null);
     zip.addFiles(implDir+"org.hl7.fhir.utilities"+sl+"src"+ sl+"org"+sl+"hl7"+sl+"fhir"+sl+"utilities"+sl+"xhtml"+sl, "org/hl7/fhir/utilities/xhtml/", ".java", null);
     zip.addFiles(implDir+"org.hl7.fhir.utilities"+sl+"src"+ sl+"org"+sl+"hl7"+sl+"fhir"+sl+"utilities"+sl+"xml"+sl, "org/hl7/fhir/utilities/xml/", ".java", null);
-    zip.addFileName("imports"+sl+"xpp3-1.1.3.4.O.jar", implDir+sl+"imports"+sl+"xpp3-1.1.3.4.O.jar", false);
-    zip.addFileName("imports"+sl+"gson-2.2.4.jar", implDir+sl+"imports"+sl+"gson-2.2.4.jar", false);
-    zip.addFileName("imports"+sl+"commons-codec-1.3.jar", implDir+sl+"imports"+sl+"commons-codec-1.3.jar", false);
+
+    String importsDir = rootDir+sl+"tools"+sl+"java"+sl+"imports";
+    zip.addFileName("imports"+sl+"xpp3-1.1.3.4.O.jar", importsDir+sl+"xpp3-1.1.3.4.O.jar", false);
+    zip.addFileName("imports"+sl+"gson-2.2.4.jar", importsDir+sl+"gson-2.2.4.jar", false);
+    zip.addFileName("imports"+sl+"commons-codec-1.3.jar", importsDir+sl+"commons-codec-1.3.jar", false);
     
     zip.close();
     jjComposerGen.close();
@@ -279,22 +281,22 @@ public boolean doesCompile() {
   }
 
   public boolean c(String name) {
-	  char sc = File.separatorChar;
+    char sl = File.separatorChar;
 
 	  
 	  
-    int r = ToolProvider.getSystemJavaCompiler().run(null, null, null, rootDir+"implementations"+sc+"java"+sc+"org.hl7.fhir.instance"+sc+"src"+sc+"org"+sc+"hl7"+sc+"fhir"+sc+"instance"+sc+"model"+sc+"Type.java");
+    int r = ToolProvider.getSystemJavaCompiler().run(null, null, null, rootDir+"implementations"+sl+"java"+sl+"org.hl7.fhir.instance"+sl+"src"+sl+"org"+sl+"hl7"+sl+"fhir"+sl+"instance"+sl+"model"+sl+"Type.java");
     return r == 0;
   }
   
   @Override
 public boolean compile(String rootDir, List<String> errors, Logger logger) throws Exception {
     assert(this.rootDir.equals(rootDir));
-    char sc = File.separatorChar;
+    char sl = File.separatorChar;
     List<File> classes = new ArrayList<File>();
 
-    addSourceFiles(classes, rootDir + "implementations"+sc+"java"+sc+"org.hl7.fhir.utilities");
-    addSourceFiles(classes, rootDir + "implementations"+sc+"java"+sc+"org.hl7.fhir.instance");
+    addSourceFiles(classes, rootDir + "implementations"+sl+"java"+sl+"org.hl7.fhir.utilities");
+    addSourceFiles(classes, rootDir + "implementations"+sl+"java"+sl+"org.hl7.fhir.instance");
   
     JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
     if (compiler == null)
@@ -306,8 +308,8 @@ public boolean compile(String rootDir, List<String> errors, Logger logger) throw
     DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
     List<String> options = new ArrayList<String>();
     StringBuilder path= new StringBuilder();
-    for (String n : new File(rootDir+sc+"tools"+sc+"java"+sc+"imports").list()) {
-      path.append(File.pathSeparator+rootDir+"tools"+sc+"java"+sc+"imports"+sc+n);
+    for (String n : new File(rootDir+sl+"tools"+sl+"java"+sl+"imports").list()) {
+      path.append(File.pathSeparator+rootDir+"tools"+sl+"java"+sl+"imports"+sl+n);
     }
     options.addAll(Arrays.asList("-classpath",path.toString()));
     //logger.log("Classpath: "+path.toString());
@@ -325,17 +327,19 @@ public boolean compile(String rootDir, List<String> errors, Logger logger) throw
     manifest.getMainAttributes().put(Attributes.Name.CLASS_PATH, ".");
     manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, "org.hl7.fhir.instance.test.ToolsHelper");
     
-    JarOutputStream jar = new JarOutputStream(new FileOutputStream(rootDir+sc+"publish"+sc+"org.hl7.fhir.validator.jar"), manifest);
+    JarOutputStream jar = new JarOutputStream(new FileOutputStream(rootDir+sl+"publish"+sl+"org.hl7.fhir.validator.jar"), manifest);
     List<String> names = new ArrayList<String>();
     names.add("META-INF/");
     names.add("META-INF/MANIFEST.MF");
-    AddJarToJar(jar, rootDir+"tools"+sc+"java"+sc+"imports"+sc+"xpp3-1.1.3.4.O.jar", names);
-    AddJarToJar(jar, rootDir+"tools"+sc+"java"+sc+"imports"+sc+"gson-2.2.4.jar", names);
-    AddJarToJar(jar, rootDir+"tools"+sc+"java"+sc+"imports"+sc+"commons-codec-1.3.jar", names);
+
+    String importsDir = rootDir+sl+"tools"+sl+"java"+sl+"imports";
+    AddJarToJar(jar, importsDir+sl+"xpp3-1.1.3.4.O.jar", names);
+    AddJarToJar(jar, importsDir+sl+"gson-2.2.4.jar", names);
+    AddJarToJar(jar, importsDir+sl+"commons-codec-1.3.jar", names);
     
     // by adding source first, we add all the newly built classes, and these are not updated when the older stuff is included
-    AddToJar(jar, new File(rootDir+"implementations"+sc+"java"+sc+"org.hl7.fhir.instance"+sc+"src"), (rootDir+"implementations"+sc+"java"+sc+"org.hl7.fhir.instance"+sc+"src"+sc).length(), names);
-    AddToJar(jar, new File(rootDir+"implementations"+sc+"java"+sc+"org.hl7.fhir.utilities"+sc+"src"), (rootDir+"implementations"+sc+"java"+sc+"org.hl7.fhir.utilities"+sc+"src"+sc).length(), names);
+    AddToJar(jar, new File(rootDir+"implementations"+sl+"java"+sl+"org.hl7.fhir.instance"+sl+"src"), (rootDir+"implementations"+sl+"java"+sl+"org.hl7.fhir.instance"+sl+"src"+sl).length(), names);
+    AddToJar(jar, new File(rootDir+"implementations"+sl+"java"+sl+"org.hl7.fhir.utilities"+sl+"src"), (rootDir+"implementations"+sl+"java"+sl+"org.hl7.fhir.utilities"+sl+"src"+sl).length(), names);
     jar.close();
     checkVersion();
 

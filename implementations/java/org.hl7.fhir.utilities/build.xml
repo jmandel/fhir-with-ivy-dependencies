@@ -12,11 +12,7 @@
     <property name="source" value="1.6"/>
     <path id="org.hl7.fhir.utilities.classpath">
         <pathelement location="bin"/>
-        <pathelement location="../../../tools/java/imports/xmlpull_1_1_3_4b.jar"/>
-        <pathelement location="../../../tools/java/imports/xpp3_min-1.1.3.4.O.jar"/>
-        <pathelement location="../../../tools/java/imports/xpp3_xpath-1.1.3.4.O.jar"/>
-        <pathelement location="../../../tools/java/imports/xpp3-1.1.3.4.O.jar"/>
-        <pathelement location="../../../tools/java/imports/saxon9he.jar"/>
+	<fileset dir="../../../tools/java/imports" includes="*.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>

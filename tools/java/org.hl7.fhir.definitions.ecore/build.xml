@@ -11,9 +11,7 @@
     <property name="source" value="1.6"/>
     <path id="org.hl7.fhir.definitions.ecore.classpath">
         <pathelement location="bin"/>
-        <pathelement location="../imports/org.eclipse.emf.common_2.7.0.v20120127-1122.jar"/>
-        <pathelement location="../imports/org.eclipse.emf.ecore.xmi_2.7.0.v20120127-1122.jar"/>
-        <pathelement location="../imports/org.eclipse.emf.ecore_2.7.0.v20120127-1122.jar"/>
+	<fileset dir="../imports" includes="*.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
