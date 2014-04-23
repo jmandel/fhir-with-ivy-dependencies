@@ -362,6 +362,7 @@ public class Publisher {
       page.log("Build final copy for HL7 web site", LogMessageType.Process);
     else
       page.log("Build local copy", LogMessageType.Process);
+    page.setFolders(new FolderManager(folder));
 
     if (isGenerate)
       page.setSvnRevision(checkSubversion(folder));
@@ -692,7 +693,7 @@ public class Publisher {
   }
 
   private void registerReferencePlatforms() {
-    javaReferencePlatform = new JavaGenerator();
+    javaReferencePlatform = new JavaGenerator(page.getFolders().rootDir);
     page.getReferenceImplementations().add(javaReferencePlatform);
     page.getReferenceImplementations().add(new CSharpGenerator());
     page.getReferenceImplementations().add(new DelphiGenerator());
@@ -719,7 +720,6 @@ public class Publisher {
 
   private boolean initialize(String folder) throws Exception {
     page.setDefinitions(new Definitions());
-    page.setFolders(new FolderManager(folder));
 
     page.log("Checking Source for " + folder, LogMessageType.Process);
 

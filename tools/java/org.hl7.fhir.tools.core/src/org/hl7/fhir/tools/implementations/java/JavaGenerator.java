@@ -80,6 +80,12 @@ public class JavaGenerator extends BaseGenerator implements PlatformGenerator {
   private Definitions definitions;
   private Logger logger;
 
+  
+  public JavaGenerator(String rootDir) {
+    super();
+    this.rootDir = rootDir;
+  }
+
   @Override
   public String getName() {
     return "java";
@@ -283,7 +289,7 @@ public boolean doesCompile() {
   
   @Override
 public boolean compile(String rootDir, List<String> errors, Logger logger) throws Exception {
-    this.rootDir = rootDir;
+    assert(this.rootDir.equals(rootDir));
     char sc = File.separatorChar;
     List<File> classes = new ArrayList<File>();
 
